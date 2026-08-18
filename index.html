@@ -3,16 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>अपने ऊपर कपड़ा देखें</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
   background:#f7f4ef;
-  font-family:Arial,sans-serif;
   color:#222;
+  font-family:Arial,sans-serif;
 }
 
 .container{
@@ -21,10 +24,24 @@ body{
   padding:20px 15px 35px;
 }
 
-.header{text-align:center;padding:10px 0 20px}
-.logo{font-size:45px}
-h1{font-size:25px;margin:5px 0}
-.subtitle{color:#666}
+.header{
+  text-align:center;
+  padding:10px 0 20px;
+}
+
+.logo{
+  font-size:45px;
+}
+
+h1{
+  font-size:25px;
+  margin:5px 0;
+}
+
+.subtitle{
+  color:#666;
+  font-size:15px;
+}
 
 .card{
   background:white;
@@ -40,18 +57,24 @@ h1{font-size:25px;margin:5px 0}
   margin-bottom:12px;
 }
 
-.upload{
-  display:block;
-  text-align:center;
-  border:2px dashed #aaa;
-  border-radius:15px;
-  padding:20px;
-}
+/* CAMERA BUTTON */
 
-.upload input{
+.camera-button{
   display:block;
   width:100%;
-  margin-top:12px;
+  padding:20px 15px;
+  border:2px dashed #aaa;
+  border-radius:16px;
+  background:#fcfbf9;
+  text-align:center;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
+  touch-action:manipulation;
+}
+
+.camera-button input{
+  display:none;
 }
 
 .preview{
@@ -63,52 +86,18 @@ h1{font-size:25px;margin:5px 0}
   border-radius:15px;
 }
 
-/* CLOTH BUTTONS */
-
-.garments{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-}
-
-.garment{
-  min-height:100px;
-  width:100%;
-  border:2px solid #ccc;
-  border-radius:15px;
-  background:white;
-  font-size:15px;
-  font-weight:bold;
-  cursor:pointer;
-  -webkit-tap-highlight-color:transparent;
-  touch-action:manipulation;
-}
-
-.garment:active{
-  transform:scale(.96);
-}
-
-.garment.selected{
-  border:4px solid #222;
-  background:#eee;
-}
-
-.icon{
-  font-size:32px;
-  margin-bottom:5px;
-}
-
-#selected{
+.done{
+  display:none;
   text-align:center;
   color:#555;
-  margin-top:12px;
-  min-height:20px;
+  margin-top:10px;
+  font-size:14px;
 }
 
 .main-button{
   width:100%;
   border:0;
-  border-radius:15px;
+  border-radius:16px;
   background:#222;
   color:white;
   padding:17px;
@@ -125,8 +114,9 @@ h1{font-size:25px;margin:5px 0}
 
 #status{
   text-align:center;
-  margin-top:12px;
   color:#666;
+  margin-top:12px;
+  min-height:22px;
 }
 
 #result{
@@ -137,116 +127,134 @@ h1{font-size:25px;margin:5px 0}
   width:100%;
   border-radius:15px;
 }
+
+.note{
+  text-align:center;
+  color:#777;
+  font-size:12px;
+  margin-top:18px;
+}
 </style>
 </head>
+
 
 <body>
 
 <div class="container">
 
+
+<!-- HEADER -->
+
 <div class="header">
+
   <div class="logo">👗</div>
-  <h1>अपने ऊपर कपड़ा देखें</h1>
+
+  <h1>
+    अपने ऊपर कपड़ा देखें
+  </h1>
+
   <div class="subtitle">
-    अपनी फोटो लें और पसंद का कपड़ा देखें
+    अपनी फोटो और कपड़े की फोटो लें
   </div>
+
 </div>
 
 
-<!-- PHOTO -->
+<!-- PERSON PHOTO -->
 
 <div class="card">
 
-<div class="step">
-1. अपनी फोटो 📷
+  <div class="step">
+    1. अपनी फोटो लें 📷
+  </div>
+
+  <label class="camera-button">
+
+    📷 कैमरा खोलें और अपनी फोटो लें
+
+    <input
+      id="personPhoto"
+      type="file"
+      accept="image/*"
+      capture="environment"
+    >
+
+  </label>
+
+  <img
+    id="personPreview"
+    class="preview"
+  >
+
+  <div
+    id="personDone"
+    class="done"
+  >
+    आपकी फोटो तैयार है ✅
+  </div>
+
 </div>
 
-<label class="upload">
 
-<b>📷 फोटो लें / चुनें</b>
-
-<input
-  id="photo"
-  type="file"
-  accept="image/*"
-  capture="user"
->
-
-<img
-  id="photoPreview"
-  class="preview"
->
-
-</label>
-
-</div>
-
-
-<!-- CLOTH -->
+<!-- CLOTH PHOTO -->
 
 <div class="card">
 
-<div class="step">
-2. कपड़ा चुनें 👗
-</div>
+  <div class="step">
+    2. कपड़े की फोटो लें 👗
+  </div>
 
-<div class="garments">
+  <label class="camera-button">
 
-<button type="button"
-class="garment"
-data-cloth="Suit 1">
+    👗 कैमरा खोलें और कपड़े की फोटो लें
 
-<div class="icon">🌸</div>
-Suit 1
+    <input
+      id="clothPhoto"
+      type="file"
+      accept="image/*"
+      capture="environment"
+    >
 
-</button>
+  </label>
 
-<button type="button"
-class="garment"
-data-cloth="Suit 2">
+  <img
+    id="clothPreview"
+    class="preview"
+  >
 
-<div class="icon">💙</div>
-Suit 2
+  <div
+    id="clothDone"
+    class="done"
+  >
+    कपड़े की फोटो तैयार है ✅
+  </div>
 
-</button>
-
-<button type="button"
-class="garment"
-data-cloth="Blouse">
-
-<div class="icon">❤️</div>
-Blouse
-
-</button>
-
-</div>
-
-<div id="selected">
-कोई कपड़ा नहीं चुना
-</div>
+  <p
+    style="font-size:13px;color:#777"
+  >
+    कपड़ा सीधा रखें और पूरी डिजाइन फोटो में दिखाएं।
+  </p>
 
 </div>
 
 
-<!-- TRY -->
+<!-- TRY ON -->
 
 <div class="card">
 
-<div class="step">
-3. तैयार? ✨
-</div>
+  <div class="step">
+    3. तैयार? ✨
+  </div>
 
-<button
-type="button"
-id="tryButton"
-class="main-button"
-disabled>
+  <button
+    id="tryButton"
+    class="main-button"
+    disabled
+  >
+    ✨ अपने ऊपर देखें
+  </button>
 
-✨ अपने ऊपर देखें
-
-</button>
-
-<div id="status"></div>
+  <div id="status"></div>
 
 </div>
 
@@ -254,40 +262,54 @@ disabled>
 <!-- RESULT -->
 
 <div
-id="result"
-class="card">
+  id="result"
+  class="card"
+>
 
-<div class="step">
-आपका Preview ✨
+  <div class="step">
+    आपका Preview ✨
+  </div>
+
+  <img
+    id="resultImage"
+  >
+
 </div>
 
-<img id="resultImage">
+
+<div class="note">
+
+  AI preview केवल अंदाज़े के लिए है।
+  असली फिटिंग अलग हो सकती है।
 
 </div>
 
-
-<p style="text-align:center;color:#777;font-size:12px">
-AI preview केवल अंदाज़े के लिए है।
-</p>
 
 </div>
 
 
 <script>
 
-let selectedCloth = null;
+const personPhoto =
+document.getElementById("personPhoto");
 
-const photo =
-document.getElementById("photo");
+const clothPhoto =
+document.getElementById("clothPhoto");
 
-const preview =
-document.getElementById("photoPreview");
+const personPreview =
+document.getElementById("personPreview");
+
+const clothPreview =
+document.getElementById("clothPreview");
+
+const personDone =
+document.getElementById("personDone");
+
+const clothDone =
+document.getElementById("clothDone");
 
 const tryButton =
 document.getElementById("tryButton");
-
-const selected =
-document.getElementById("selected");
 
 const status =
 document.getElementById("status");
@@ -299,72 +321,82 @@ const resultImage =
 document.getElementById("resultImage");
 
 
-// PHOTO
+// PERSON PHOTO
 
-photo.addEventListener("change", function(){
+personPhoto.addEventListener(
+  "change",
+  function(){
 
-  if(!this.files || !this.files[0]){
-    return;
-  }
+    const file =
+    this.files[0];
 
-  preview.src =
-    URL.createObjectURL(this.files[0]);
+    if(!file){
+      return;
+    }
 
-  preview.style.display =
+    personPreview.src =
+    URL.createObjectURL(file);
+
+    personPreview.style.display =
     "block";
 
-  status.innerText =
-    "फोटो मिल गई ✅";
-
-  checkReady();
-
-});
-
-
-// CLOTH BUTTONS
-
-document.querySelectorAll(".garment")
-.forEach(function(button){
-
-  button.addEventListener("click", function(){
-
-    // remove old selection
-
-    document.querySelectorAll(".garment")
-    .forEach(function(b){
-      b.classList.remove("selected");
-    });
-
-    // select clicked cloth
-
-    button.classList.add("selected");
-
-    selectedCloth =
-      button.getAttribute("data-cloth");
-
-    selected.innerText =
-      "चुना गया: " + selectedCloth + " ✅";
+    personDone.style.display =
+    "block";
 
     status.innerText =
-      "कपड़ा चुन लिया ✅";
+    "आपकी फोटो मिल गई ✅";
 
     checkReady();
 
-  });
+  }
+);
 
-});
+
+// CLOTH PHOTO
+
+clothPhoto.addEventListener(
+  "change",
+  function(){
+
+    const file =
+    this.files[0];
+
+    if(!file){
+      return;
+    }
+
+    clothPreview.src =
+    URL.createObjectURL(file);
+
+    clothPreview.style.display =
+    "block";
+
+    clothDone.style.display =
+    "block";
+
+    status.innerText =
+    "कपड़े की फोटो मिल गई ✅";
+
+    checkReady();
+
+  }
+);
 
 
-// ENABLE TRY BUTTON
+// CHECK BOTH PHOTOS
 
 function checkReady(){
 
   if(
-    photo.files.length > 0 &&
-    selectedCloth !== null
+    personPhoto.files.length > 0 &&
+    clothPhoto.files.length > 0
   ){
 
-    tryButton.disabled = false;
+    tryButton.disabled =
+    false;
+
+    status.innerText =
+    "दोनों फोटो तैयार हैं ✅ अब अपने ऊपर देखें दबाएं।";
 
   }
 
@@ -373,36 +405,44 @@ function checkReady(){
 
 // TRY BUTTON
 
-tryButton.addEventListener("click", function(){
-
-  status.innerText =
-    "⏳ Preview तैयार हो रहा है...";
-
-  setTimeout(function(){
-
-    /*
-      अभी DEMO:
-      असली AI Virtual Try-On
-      बाद में यहां connect करेंगे.
-    */
-
-    resultImage.src =
-      preview.src;
-
-    result.style.display =
-      "block";
+tryButton.addEventListener(
+  "click",
+  function(){
 
     status.innerText =
-      "✅ " + selectedCloth +
-      " select हो गया";
+    "⏳ AI preview तैयार हो रहा है...";
 
-    result.scrollIntoView({
-      behavior:"smooth"
-    });
+    setTimeout(
+      function(){
 
-  },700);
+        /*
+          अभी DEMO है।
 
-});
+          अगले चरण में:
+          personPhoto + clothPhoto
+          को REAL AI Virtual Try-On
+          API में भेजेंगे।
+        */
+
+        resultImage.src =
+        personPreview.src;
+
+        result.style.display =
+        "block";
+
+        status.innerText =
+        "✅ Demo preview तैयार है";
+
+        result.scrollIntoView({
+          behavior:"smooth"
+        });
+
+      },
+      700
+    );
+
+  }
+);
 
 </script>
 
