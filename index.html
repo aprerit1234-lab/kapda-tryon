@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>अपने ऊपर कपड़ा देखें</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#f7f4ef;
+    color:#222;
+    font-family:Arial,sans-serif;
+}
+
+.container{
+    max-width:430px;
+    margin:auto;
+    padding:20px 16px 35px;
+}
+
+.header{
+    text-align:center;
+    padding:15px 0 20px;
+}
+
+.logo{
+    font-size:45px;
+}
+
+h1{
+    font-size:25px;
+    margin:5px 0;
+}
+
+.subtitle{
+    color:#666;
+    font-size:15px;
+}
+
+.card{
+    background:white;
+    border-radius:20px;
+    padding:18px;
+    margin-top:15px;
+    border:1px solid #ddd;
+}
+
+.step{
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:12px;
+}
+
+.upload{
+    display:block;
+    border:2px dashed #aaa;
+    border-radius:16px;
+    padding:22px;
+    text-align:center;
+    cursor:pointer;
+}
+
+.upload input{
+    width:100%;
+    margin-top:12px;
+}
+
+.preview{
+    display:none;
+    width:100%;
+    max-height:300px;
+    object-fit:contain;
+    border-radius:15px;
+    margin-top:12px;
+}
+
+.garments{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+}
+
+.garment{
+    background:white;
+    border:1px solid #ccc;
+    border-radius:14px;
+    padding:12px 5px;
+    font-size:14px;
+}
+
+.garment.selected{
+    border:3px solid #222;
+}
+
+.icon{
+    font-size:28px;
+    margin-bottom:5px;
+}
+
+.main-button{
+    width:100%;
+    padding:17px;
+    margin-top:12px;
+    border:none;
+    border-radius:16px;
+    background:#222;
+    color:white;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.main-button:disabled{
+    opacity:.45;
+}
+
+#status{
+    text-align:center;
+    margin-top:12px;
+    color:#666;
+}
+
+.result{
+    display:none;
+}
+
+.result img{
+    width:100%;
+    border-radius:15px;
+}
+
+.note{
+    text-align:center;
+    color:#777;
+    font-size:12px;
+    margin-top:18px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <div class="logo">👗</div>
+
+        <h1>अपने ऊपर कपड़ा देखें</h1>
+
+        <div class="subtitle">
+            अपनी फोटो लें और पसंद का कपड़ा देखें
+        </div>
+    </div>
+
+
+    <!-- PHOTO -->
+
+    <div class="card">
+
+        <div class="step">
+            1. अपनी फोटो 📷
+        </div>
+
+        <label class="upload">
+
+            <b>📷 फोटो लें / चुनें</b>
+
+            <input
+                id="person"
+                type="file"
+                accept="image/*"
+                capture="user"
+            >
+
+            <img
+                id="personPreview"
+                class="preview"
+            >
+
+        </label>
+
+    </div>
+
+
+    <!-- CLOTH -->
+
+    <div class="card">
+
+        <div class="step">
+            2. कपड़ा चुनें 👗
+        </div>
+
+        <div class="garments">
+
+            <button class="garment" data-name="Suit 1">
+
+                <div class="icon">🌸</div>
+
+                Suit 1
+
+            </button>
+
+
+            <button class="garment" data-name="Suit 2">
+
+                <div class="icon">💙</div>
+
+                Suit 2
+
+            </button>
+
+
+            <button class="garment" data-name="Blouse">
+
+                <div class="icon">❤️</div>
+
+                Blouse
+
+            </button>
+
+        </div>
+
+        <p style="font-size:13px;color:#777">
+            बाद में यहां आपकी दुकान के असली कपड़ों की फोटो आएंगी।
+        </p>
+
+    </div>
+
+
+    <!-- TRY ON -->
+
+    <div class="card">
+
+        <div class="step">
+            3. तैयार? ✨
+        </div>
+
+        <button
+            id="tryButton"
+            class="main-button"
+            disabled
+        >
+            ✨ अपने ऊपर देखें
+        </button>
+
+        <div id="status"></div>
+
+    </div>
+
+
+    <!-- RESULT -->
+
+    <div
+        id="result"
+        class="card result"
+    >
+
+        <div class="step">
+            आपका Preview ✨
+        </div>
+
+        <img id="resultImage">
+
+        <button
+            id="again"
+            class="main-button"
+        >
+            🔄 दूसरा कपड़ा देखें
+        </button>
+
+    </div>
+
+
+    <div class="note">
+        AI preview केवल अंदाज़े के लिए है।
+        असली फिटिंग अलग हो सकती है।
+    </div>
+
+</div>
+
+
+<script>
+
+const person =
+document.getElementById("person");
+
+const personPreview =
+document.getElementById("personPreview");
+
+const tryButton =
+document.getElementById("tryButton");
+
+const status =
+document.getElementById("status");
+
+const result =
+document.getElementById("result");
+
+const resultImage =
+document.getElementById("resultImage");
+
+let selectedGarment = null;
+
+
+// PHOTO
+
+person.addEventListener("change", function(){
+
+    const file = person.files[0];
+
+    if(!file) return;
+
+    personPreview.src =
+        URL.createObjectURL(file);
+
+    personPreview.style.display =
+        "block";
+
+    tryButton.disabled =
+        !selectedGarment;
+
+});
+
+
+// GARMENT
+
+document
+.querySelectorAll(".garment")
+.forEach(function(button){
+
+    button.addEventListener("click",function(){
+
+        document
+        .querySelectorAll(".garment")
+        .forEach(function(b){
+
+            b.classList.remove("selected");
+
+        });
+
+        button.classList.add("selected");
+
+        selectedGarment =
+            button.dataset.name;
+
+        tryButton.disabled =
+            !person.files[0];
+
+    });
+
+});
+
+
+// TRY
+
+tryButton.addEventListener("click",function(){
+
+    status.innerHTML =
+        "⏳ AI preview तैयार किया जा रहा है...";
+
+    /*
+       अभी यह DEMO है।
+       अगले चरण में यहां real AI
+       virtual try-on connect करेंगे।
+    */
+
+    setTimeout(function(){
+
+        resultImage.src =
+            personPreview.src;
+
+        result.style.display =
+            "block";
+
+        status.innerHTML =
+            "✅ Preview तैयार है";
+
+    },1000);
+
+});
+
+
+// AGAIN
+
+document
+.getElementById("again")
+.addEventListener("click",function(){
+
+    result.style.display =
+        "none";
+
+    status.innerHTML = "";
+
+});
+
+</script>
+
+</body>
+</html>
