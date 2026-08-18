@@ -14,8 +14,8 @@
 body{
   margin:0;
   background:#f7f4ef;
-  color:#222;
   font-family:Arial,sans-serif;
+  color:#222;
 }
 
 .container{
@@ -40,7 +40,6 @@ h1{
 
 .subtitle{
   color:#666;
-  font-size:15px;
 }
 
 .card{
@@ -57,9 +56,7 @@ h1{
   margin-bottom:12px;
 }
 
-/* CAMERA BUTTON */
-
-.camera-button{
+.camera{
   display:block;
   width:100%;
   padding:20px 15px;
@@ -70,10 +67,9 @@ h1{
   font-size:17px;
   font-weight:bold;
   cursor:pointer;
-  touch-action:manipulation;
 }
 
-.camera-button input{
+.camera input{
   display:none;
 }
 
@@ -91,10 +87,9 @@ h1{
   text-align:center;
   color:#555;
   margin-top:10px;
-  font-size:14px;
 }
 
-.main-button{
+.btn{
   width:100%;
   border:0;
   border-radius:16px;
@@ -104,11 +99,9 @@ h1{
   font-size:18px;
   font-weight:bold;
   margin-top:10px;
-  cursor:pointer;
-  touch-action:manipulation;
 }
 
-.main-button:disabled{
+.btn:disabled{
   opacity:.45;
 }
 
@@ -116,7 +109,6 @@ h1{
   text-align:center;
   color:#666;
   margin-top:12px;
-  min-height:22px;
 }
 
 #result{
@@ -128,6 +120,10 @@ h1{
   border-radius:15px;
 }
 
+.error{
+  color:#b00020 !important;
+}
+
 .note{
   text-align:center;
   color:#777;
@@ -137,16 +133,11 @@ h1{
 </style>
 </head>
 
-
 <body>
 
 <div class="container">
 
-
-<!-- HEADER -->
-
 <div class="header">
-
   <div class="logo">👗</div>
 
   <h1>
@@ -156,105 +147,102 @@ h1{
   <div class="subtitle">
     अपनी फोटो और कपड़े की फोटो लें
   </div>
+</div>
+
+
+<!-- PERSON -->
+
+<div class="card">
+
+<div class="step">
+1. अपनी फोटो लें 📷
+</div>
+
+<label class="camera">
+
+📷 कैमरा खोलें और अपनी फोटो लें
+
+<input
+  id="person"
+  type="file"
+  accept="image/*"
+  capture="environment"
+>
+
+</label>
+
+<img
+  id="personPreview"
+  class="preview"
+>
+
+<div
+  id="personDone"
+  class="done"
+>
+आपकी फोटो तैयार है ✅
+</div>
 
 </div>
 
 
-<!-- PERSON PHOTO -->
+<!-- CLOTH -->
 
 <div class="card">
 
-  <div class="step">
-    1. अपनी फोटो लें 📷
-  </div>
+<div class="step">
+2. कपड़े की फोटो लें 👗
+</div>
 
-  <label class="camera-button">
+<label class="camera">
 
-    📷 कैमरा खोलें और अपनी फोटो लें
+👗 कैमरा खोलें और कपड़े की फोटो लें
 
-    <input
-      id="personPhoto"
-      type="file"
-      accept="image/*"
-      capture="environment"
-    >
+<input
+  id="cloth"
+  type="file"
+  accept="image/*"
+  capture="environment"
+>
 
-  </label>
+</label>
 
-  <img
-    id="personPreview"
-    class="preview"
-  >
+<img
+  id="clothPreview"
+  class="preview"
+>
 
-  <div
-    id="personDone"
-    class="done"
-  >
-    आपकी फोटो तैयार है ✅
-  </div>
+<div
+  id="clothDone"
+  class="done"
+>
+कपड़े की फोटो तैयार है ✅
+</div>
+
+<p style="font-size:13px;color:#777">
+कपड़े को सीधा रखें और पूरी डिजाइन फोटो में दिखाएं।
+</p>
 
 </div>
 
 
-<!-- CLOTH PHOTO -->
+<!-- TRY -->
 
 <div class="card">
 
-  <div class="step">
-    2. कपड़े की फोटो लें 👗
-  </div>
-
-  <label class="camera-button">
-
-    👗 कैमरा खोलें और कपड़े की फोटो लें
-
-    <input
-      id="clothPhoto"
-      type="file"
-      accept="image/*"
-      capture="environment"
-    >
-
-  </label>
-
-  <img
-    id="clothPreview"
-    class="preview"
-  >
-
-  <div
-    id="clothDone"
-    class="done"
-  >
-    कपड़े की फोटो तैयार है ✅
-  </div>
-
-  <p
-    style="font-size:13px;color:#777"
-  >
-    कपड़ा सीधा रखें और पूरी डिजाइन फोटो में दिखाएं।
-  </p>
-
+<div class="step">
+3. तैयार? ✨
 </div>
 
+<button
+  id="try"
+  class="btn"
+  disabled
+>
+✨ अपने ऊपर देखें
+</button>
 
-<!-- TRY ON -->
-
-<div class="card">
-
-  <div class="step">
-    3. तैयार? ✨
-  </div>
-
-  <button
-    id="tryButton"
-    class="main-button"
-    disabled
-  >
-    ✨ अपने ऊपर देखें
-  </button>
-
-  <div id="status"></div>
+<div id="status"></div>
 
 </div>
 
@@ -266,35 +254,38 @@ h1{
   class="card"
 >
 
-  <div class="step">
-    आपका Preview ✨
-  </div>
+<div class="step">
+आपका AI Preview ✨
+</div>
 
-  <img
-    id="resultImage"
-  >
+<img id="out">
 
 </div>
 
 
 <div class="note">
-
-  AI preview केवल अंदाज़े के लिए है।
-  असली फिटिंग अलग हो सकती है।
+AI preview अनुमान के लिए है।
+असली फिटिंग अलग हो सकती है।
+</div>
 
 </div>
 
 
-</div>
+<script type="module">
+
+import {
+  Client,
+  handle_file
+}
+from
+"https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js";
 
 
-<script>
+const person =
+document.getElementById("person");
 
-const personPhoto =
-document.getElementById("personPhoto");
-
-const clothPhoto =
-document.getElementById("clothPhoto");
+const cloth =
+document.getElementById("cloth");
 
 const personPreview =
 document.getElementById("personPreview");
@@ -309,7 +300,7 @@ const clothDone =
 document.getElementById("clothDone");
 
 const tryButton =
-document.getElementById("tryButton");
+document.getElementById("try");
 
 const status =
 document.getElementById("status");
@@ -317,132 +308,201 @@ document.getElementById("status");
 const result =
 document.getElementById("result");
 
-const resultImage =
-document.getElementById("resultImage");
+const output =
+document.getElementById("out");
 
 
 // PERSON PHOTO
 
-personPhoto.addEventListener(
-  "change",
-  function(){
+person.addEventListener(
+"change",
+function(){
 
-    const file =
-    this.files[0];
+  const file =
+  this.files[0];
 
-    if(!file){
-      return;
-    }
+  if(!file) return;
 
-    personPreview.src =
-    URL.createObjectURL(file);
+  personPreview.src =
+  URL.createObjectURL(file);
 
-    personPreview.style.display =
-    "block";
+  personPreview.style.display =
+  "block";
 
-    personDone.style.display =
-    "block";
+  personDone.style.display =
+  "block";
 
-    status.innerText =
-    "आपकी फोटो मिल गई ✅";
+  status.innerText =
+  "आपकी फोटो मिल गई ✅";
 
-    checkReady();
+  checkReady();
 
-  }
-);
+});
 
 
 // CLOTH PHOTO
 
-clothPhoto.addEventListener(
-  "change",
-  function(){
+cloth.addEventListener(
+"change",
+function(){
 
-    const file =
-    this.files[0];
+  const file =
+  this.files[0];
 
-    if(!file){
-      return;
-    }
+  if(!file) return;
 
-    clothPreview.src =
-    URL.createObjectURL(file);
+  clothPreview.src =
+  URL.createObjectURL(file);
 
-    clothPreview.style.display =
-    "block";
+  clothPreview.style.display =
+  "block";
 
-    clothDone.style.display =
-    "block";
+  clothDone.style.display =
+  "block";
 
-    status.innerText =
-    "कपड़े की फोटो मिल गई ✅";
+  status.innerText =
+  "कपड़े की फोटो मिल गई ✅";
 
-    checkReady();
+  checkReady();
 
-  }
-);
+});
 
 
-// CHECK BOTH PHOTOS
+// CHECK
 
 function checkReady(){
 
   if(
-    personPhoto.files.length > 0 &&
-    clothPhoto.files.length > 0
+    person.files.length > 0 &&
+    cloth.files.length > 0
   ){
 
     tryButton.disabled =
     false;
 
     status.innerText =
-    "दोनों फोटो तैयार हैं ✅ अब अपने ऊपर देखें दबाएं।";
+    "दोनों फोटो तैयार हैं ✅";
 
   }
 
 }
 
 
-// TRY BUTTON
+// AI TRY ON
 
 tryButton.addEventListener(
-  "click",
-  function(){
+"click",
+async function(){
+
+  try{
+
+    tryButton.disabled =
+    true;
+
+    status.classList.remove("error");
 
     status.innerText =
-    "⏳ AI preview तैयार हो रहा है...";
+    "⏳ AI कपड़ा पहनाकर देख रहा है...";
 
-    setTimeout(
-      function(){
+    /*
+      Public IDM-VTON Space.
+      यह prototype/testing के लिए है.
+    */
 
-        /*
-          अभी DEMO है।
-
-          अगले चरण में:
-          personPhoto + clothPhoto
-          को REAL AI Virtual Try-On
-          API में भेजेंगे।
-        */
-
-        resultImage.src =
-        personPreview.src;
-
-        result.style.display =
-        "block";
-
-        status.innerText =
-        "✅ Demo preview तैयार है";
-
-        result.scrollIntoView({
-          behavior:"smooth"
-        });
-
-      },
-      700
+    const app =
+    await Client.connect(
+      "yisol/IDM-VTON"
     );
 
+
+    const resultData =
+    await app.predict(
+      "/tryon",
+      [
+
+        {
+          background:
+          handle_file(
+            person.files[0]
+          ),
+
+          layers:[],
+
+          composite:null
+        },
+
+        handle_file(
+          cloth.files[0]
+        ),
+
+        "upper body garment, suit or blouse",
+
+        true,
+
+        false,
+
+        30,
+
+        42
+      ]
+    );
+
+
+    const generated =
+    resultData.data[0];
+
+
+    if(!generated){
+
+      throw new Error(
+        "AI image nahi mili"
+      );
+
+    }
+
+
+    output.src =
+    generated.url ||
+    generated.path ||
+    generated;
+
+
+    result.style.display =
+    "block";
+
+
+    status.innerText =
+    "✅ AI Preview तैयार है";
+
+
+    result.scrollIntoView({
+      behavior:"smooth"
+    });
+
+
   }
-);
+
+  catch(error){
+
+    console.error(error);
+
+    status.classList.add(
+      "error"
+    );
+
+    status.innerText =
+    "❌ AI अभी busy है। थोड़ी देर बाद फिर कोशिश करें।";
+
+  }
+
+  finally{
+
+    tryButton.disabled =
+    false;
+
+  }
+
+});
 
 </script>
 
